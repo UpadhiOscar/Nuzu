@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Nuzu — Find Your Sound{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <div class="hero-beads" aria-hidden="true"></div>
+
+    <div class="container hero-grid">
+        <div class="hero-copy">
+            <p class="eyebrow">NIGERIA'S MUSICIAN BOOKING MARKETPLACE</p>
+
+            <h1>Find your <span>sound.</span></h1>
+
+            <p class="hero-description">
+                Discover talented musicians for your next event,
+                celebration, or special moment.
+            </p>
+
+            <form class="search-panel" action="#discover" method="get">
+                <label class="search-field">
+                    <span class="search-icon" aria-hidden="true">♫</span>
+                    <select name="instrument" aria-label="Choose an instrument">
+                        <option value="">Any instrument</option>
+                        <option value="violin">Violinist</option>
+                        <option value="piano">Pianist</option>
+                        <option value="guitar">Guitarist</option>
+                        <option value="drums">Drummer</option>
+                        <option value="saxophone">Saxophonist</option>
+                        <option value="singer">Singer</option>
+                    </select>
+                </label>
+
+                <label class="search-field">
+                    <span class="search-icon" aria-hidden="true">⌖</span>
+                    <select name="state" aria-label="Choose a location">
+                        <option value="">Any location</option>
+                        <option value="Abia">Abia</option>
+                        <option value="Anambra">Anambra</option>
+                        <option value="Bayelsa">Bayelsa</option>
+                        <option value="Delta">Delta</option>
+                        <option value="Enugu">Enugu</option>
+                        <option value="FCT">FCT, Abuja</option>
+                        <option value="Lagos">Lagos</option>
+                        <option value="Rivers">Rivers</option>
+                    </select>
+                </label>
+
+                <label class="search-field date-field">
+                    <span class="search-icon" aria-hidden="true">▦</span>
+                    <input type="date" name="date" aria-label="Event date">
+                </label>
+
+                <button class="button button-coral search-button" type="submit">
+                    <span aria-hidden="true">⌕</span> Search
+                </button>
+            </form>
+        </div>
+
+        <div class="hero-visual">
+            <div class="hero-beads hero-beads-front" aria-hidden="true"></div>
+
+            <div class="hero-instrument">
+                <img
+                    src="{% static 'images/hero-violin.jpg' %}"
+                    alt="Violin"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+
+                <div class="instrument-placeholder" aria-hidden="true">
+                    <span>♫</span>
+                    <small>THE SOUND OF SOMETHING SPECIAL</small>
+                </div>
+            </div>
+
+            <div class="hero-script">
+                <span>Live music.</span>
+                <span>Real moments.</span>
+                <i></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="featured-section" id="discover">
+    <div class="container">
+        <div class="section-heading featured-heading">
+            <div>
+                <p class="eyebrow">FEATURED MUSICIANS</p>
+                <h2>Top talent, ready for your event</h2>
+            </div>
+
+            <a href="#discover" class="button button-outline">
+                View all <span aria-hidden="true">›</span>
+            </a>
+        </div>
+
+        <div class="musician-grid">
+            <article class="musician-card">
+                <a href="#discover" class="musician-photo photo-violin">
+                    <img src="{% static 'images/violin.jpg' %}" alt="Violin">
+                    <span class="category-badge teal-badge">Violinist</span>
+                </a>
+                <div class="musician-info">
+                    <h3>Discover a violinist</h3>
+                    <p class="musician-location">Find performers in your state</p>
+                    <div class="musician-bottom">
+                        <span class="starting-price">Browse profiles</span>
+                        <a href="#discover" class="profile-link">Explore</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="musician-card">
+                <a href="#discover" class="musician-photo photo-piano">
+                    <img src="{% static 'images/piano.jpg' %}" alt="Piano">
+                    <span class="category-badge coral-badge">Pianist</span>
+                </a>
+                <div class="musician-info">
+                    <h3>Discover a pianist</h3>
+                    <p class="musician-location">Find performers in your state</p>
+                    <div class="musician-bottom">
+                        <span class="starting-price">Browse profiles</span>
+                        <a href="#discover" class="profile-link">Explore</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="musician-card">
+                <a href="#discover" class="musician-photo photo-guitar">
+                    <img src="{% static 'images/guitar.jpg' %}" alt="Acoustic guitar">
+                    <span class="category-badge gold-badge">Guitarist</span>
+                </a>
+                <div class="musician-info">
+                    <h3>Discover a guitarist</h3>
+                    <p class="musician-location">Find performers in your state</p>
+                    <div class="musician-bottom">
+                        <span class="starting-price">Browse profiles</span>
+                        <a href="#discover" class="profile-link">Explore</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="musician-card">
+                <a href="#discover" class="musician-photo photo-drums">
+                    <img src="{% static 'images/drums.jpg' %}" alt="Drum kit">
+                    <span class="category-badge teal-badge">Drummer</span>
+                </a>
+                <div class="musician-info">
+                    <h3>Discover a drummer</h3>
+                    <p class="musician-location">Find performers in your state</p>
+                    <div class="musician-bottom">
+                        <span class="starting-price">Browse profiles</span>
+                        <a href="#discover" class="profile-link">Explore</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="musician-card">
+                <a href="#discover" class="musician-photo photo-saxophone">
+                    <img src="{% static 'images/saxophone.jpg' %}" alt="Saxophone">
+                    <span class="category-badge coral-badge">Saxophonist</span>
+                </a>
+                <div class="musician-info">
+                    <h3>Discover a saxophonist</h3>
+                    <p class="musician-location">Find performers in your state</p>
+                    <div class="musician-bottom">
+                        <span class="starting-price">Browse profiles</span>
+                        <a href="#discover" class="profile-link">Explore</a>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="benefits-section" id="how-it-works">
+    <div class="benefits-beads" aria-hidden="true"></div>
+
+    <div class="container benefits-inner">
+        <div class="benefits-heading">
+            <p class="eyebrow">WHY CHOOSE NUZU</p>
+            <h2>More than a booking.<br>It's a connection.</h2>
+        </div>
+
+        <article class="benefit">
+            <span class="benefit-icon" aria-hidden="true">♙</span>
+            <div>
+                <h3>Trusted musicians</h3>
+                <p>Profiles built around talent</p>
+            </div>
+        </article>
+
+        <article class="benefit">
+            <span class="benefit-icon" aria-hidden="true">♧</span>
+            <div>
+                <h3>Clear booking requests</h3>
+                <p>Know the details before agreeing</p>
+            </div>
+        </article>
+
+        <article class="benefit">
+            <span class="benefit-icon" aria-hidden="true">♡</span>
+            <div>
+                <h3>Support when needed</h3>
+                <p>A simpler way to connect</p>
+            </div>
+        </article>
+    </div>
+</section>
+
+<section class="how-section">
+    <div class="container">
+        <p class="eyebrow">HOW IT WORKS</p>
+        <h2>Great music, <span>made simple.</span></h2>
+
+        <div class="steps-grid">
+            <article class="step-card">
+                <span class="step-number">01</span>
+                <h3>Discover</h3>
+                <p>Explore musicians by instrument, location and service.</p>
+            </article>
+
+            <article class="step-card">
+                <span class="step-number">02</span>
+                <h3>Send a request</h3>
+                <p>Share your event date, location and performance needs.</p>
+            </article>
+
+            <article class="step-card">
+                <span class="step-number">03</span>
+                <h3>Make it happen</h3>
+                <p>Discuss the details with your musician and confirm arrangements.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="musician-cta" id="for-musicians">
+    <div class="container musician-cta-inner">
+        <div>
+            <p class="eyebrow">FOR THE PEOPLE BEHIND THE MUSIC</p>
+            <h2>Your talent deserves<br>a <span>bigger stage.</span></h2>
+            <p>
+                Create your profile, showcase your performances and connect
+                with people looking to book your services.
+            </p>
+        </div>
+
+        <a href="/accounts/register/" class="button button-light">
+            Join as a musician <span aria-hidden="true">→</span>
+        </a>
+    </div>
+</section>
+
+{% endblock %}

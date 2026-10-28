@@ -1,0 +1,25 @@
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+venv/
+.venv/
+.team21/
+env/
+
+# Django and local database
+db.sqlite3
+*.sqlite3
+.env
+.env.*
+
+# User-uploaded media
+media/
+
+# Editor and operating system
+.vscode/
+.idea/
+.DS_Store
