@@ -1,0 +1,82 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ musician.display_name }} | Nuzu{% endblock %}
+
+{% block content %}
+
+<section class="browse-hero">
+    <div class="container">
+        <p class="eyebrow">MEET THE MUSICIAN</p>
+        <h1>{{ musician.display_name }}</h1>
+        <p>{{ musician.city }}, {{ musician.get_state_display }}</p>
+    </div>
+</section>
+
+<section class="musician-detail-section">
+    <div class="container musician-detail-grid">
+
+        <div class="musician-detail-photo">
+            {% if musician.profile_photo %}
+                <img src="{{ musician.profile_photo.url }}"
+                     alt="{{ musician.display_name }}">
+            {% else %}
+                <div class="instrument-placeholder">
+                    <span>♫</span>
+                    <small>NUZU MUSICIAN</small>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="musician-detail-info">
+            {% if musician.is_verified %}
+                <span class="category-badge teal-badge">Verified musician</span>
+            {% endif %}
+
+            <h2>About the musician</h2>
+            <p>{{ musician.bio|default:"This musician has not added a biography yet." }}</p>
+
+            <div class="detail-meta">
+                <p><strong>Location:</strong> {{ musician.city }}, {{ musician.get_state_display }}</p>
+                <p><strong>Performance:</strong> {{ musician.get_performance_type_display|default:"Not specified" }}</p>
+                {% if musician.band_size %}
+                    <p><strong>Band size:</strong> {{ musician.band_size }} members</p>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="browse-section">
+    <div class="container">
+        <p class="eyebrow">WHAT THEY OFFER</p>
+        <h2>Services and pricing</h2>
+
+        {% if services %}
+            <div class="musician-grid">
+                {% for service in services %}
+                    <article class="musician-card service-card">
+                        <div class="musician-info">
+                            <span class="category-badge coral-badge">
+                                {{ service.get_instrument_display }}
+                            </span>
+                            <h3>{{ service.service_name }}</h3>
+                            <p>{{ service.description|default:"Professional music performance service." }}</p>
+                            <div class="musician-bottom">
+                                <span class="starting-price">
+                                    From ₦{{ service.starting_price|floatformat:0 }}
+                                </span>
+                            </div>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No active services have been listed yet.</p>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}

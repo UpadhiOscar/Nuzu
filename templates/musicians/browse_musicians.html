@@ -1,0 +1,133 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Browse Musicians | Nuzu{% endblock %}
+
+{% block content %}
+
+<section class="browse-hero">
+    <div class="container">
+        <p class="eyebrow">DISCOVER YOUR SOUND</p>
+        <h1>Find the right musician <span>for your event.</span></h1>
+        <p>Explore talented performers across Nigeria.</p>
+    </div>
+</section>
+
+<section class="browse-section">
+    <div class="container">
+
+        <form class="search-panel browse-search" method="get">
+            <label class="search-field">
+                <span class="search-icon">♫</span>
+                <select name="instrument">
+                    <option value="">Any instrument</option>
+                    {% for value, label in instruments %}
+                        <option value="{{ value }}"
+                            {% if selected_instrument == value %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label class="search-field">
+                <span class="search-icon">⌖</span>
+                <select name="state">
+                    <option value="">Any location</option>
+                    {% for value, label in states %}
+                        <option value="{{ value }}"
+                            {% if selected_state == value %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label class="search-field date-field">
+                <span class="search-icon">▦</span>
+                <input type="date" name="date" value="{{ event_date }}">
+            </label>
+
+            <button class="button button-coral search-button" type="submit">
+                Search
+            </button>
+        </form>
+
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">NUZU DIRECTORY</p>
+                <h2>Available musicians</h2>
+            </div>
+            <span>{{ musicians|length }} result{{ musicians|length|pluralize }}</span>
+        </div>
+
+        {% if musicians %}
+            <div class="musician-grid">
+                {% for musician in musicians %}
+                    <article class="musician-card">
+
+                        <div class="musician-photo">
+                            {% if musician.profile_photo %}
+                                <img src="{{ musician.profile_photo.url }}"
+                                     alt="{{ musician.display_name }}">
+                            {% else %}
+                                <div class="instrument-placeholder">
+                                    <span>♫</span>
+                                    <small>NUZU MUSICIAN</small>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="musician-info">
+                            <h3>
+                                <a href="{% url 'musician_detail' musician.pk %}">
+                                    {{ musician.display_name }}
+                                </a>
+                            </h3>
+
+                            <p class="musician-location">
+                                {{ musician.city }}, {{ musician.get_state_display }}
+                            </p>
+
+                            {% if musician.is_verified %}
+                                <span class="category-badge teal-badge">
+                                    Verified musician
+                                </span>
+                            {% endif %}
+
+                            <div class="musician-bottom">
+                                <span class="starting-price">
+                                    {% for service in musician.services.all %}
+                                        {% if service.is_active %}
+                                            From ₦{{ service.starting_price|floatformat:0 }}
+                                            {% if not forloop.last %}<br>{% endif %}
+                                        {% endif %}
+                                    {% empty %}
+                                        Contact for pricing
+                                    {% endfor %}
+                                </span>
+
+                                <a href="{% url 'musician_detail' musician.pk %}" class="profile-link">
+                                    View profile →
+                                </a>
+                            </div>
+                        </div>
+
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <h3>No musicians found</h3>
+                <p>Try changing your instrument or location filters.</p>
+                <a href="{% url 'browse_musicians' %}" class="button button-coral">
+                    Clear filters
+                </a>
+            </div>
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}

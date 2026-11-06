@@ -1,3 +1,4 @@
+
 {% extends 'base.html' %}
 {% load static %}
 
@@ -5,6 +6,7 @@
 
 {% block content %}
 
+<!-- HERO SECTION -->
 <section class="hero">
     <div class="hero-beads" aria-hidden="true"></div>
 
@@ -18,45 +20,6 @@
                 Discover talented musicians for your next event,
                 celebration, or special moment.
             </p>
-
-            <form class="search-panel" action="#discover" method="get">
-                <label class="search-field">
-                    <span class="search-icon" aria-hidden="true">♫</span>
-                    <select name="instrument" aria-label="Choose an instrument">
-                        <option value="">Any instrument</option>
-                        <option value="violin">Violinist</option>
-                        <option value="piano">Pianist</option>
-                        <option value="guitar">Guitarist</option>
-                        <option value="drums">Drummer</option>
-                        <option value="saxophone">Saxophonist</option>
-                        <option value="singer">Singer</option>
-                    </select>
-                </label>
-
-                <label class="search-field">
-                    <span class="search-icon" aria-hidden="true">⌖</span>
-                    <select name="state" aria-label="Choose a location">
-                        <option value="">Any location</option>
-                        <option value="Abia">Abia</option>
-                        <option value="Anambra">Anambra</option>
-                        <option value="Bayelsa">Bayelsa</option>
-                        <option value="Delta">Delta</option>
-                        <option value="Enugu">Enugu</option>
-                        <option value="FCT">FCT, Abuja</option>
-                        <option value="Lagos">Lagos</option>
-                        <option value="Rivers">Rivers</option>
-                    </select>
-                </label>
-
-                <label class="search-field date-field">
-                    <span class="search-icon" aria-hidden="true">▦</span>
-                    <input type="date" name="date" aria-label="Event date">
-                </label>
-
-                <button class="button button-coral search-button" type="submit">
-                    <span aria-hidden="true">⌕</span> Search
-                </button>
-            </form>
         </div>
 
         <div class="hero-visual">
@@ -64,7 +27,7 @@
 
             <div class="hero-instrument">
                 <img
-                    src="{% static 'images/hero-violin.jpg' %}"
+                    src="{% static 'images/nuzu-hero-violinist.jpg' %}"
                     alt="Violin"
                     onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
 
@@ -73,16 +36,57 @@
                     <small>THE SOUND OF SOMETHING SPECIAL</small>
                 </div>
             </div>
-
-            <div class="hero-script">
-                <span>Live music.</span>
-                <span>Real moments.</span>
-                <i></i>
-            </div>
         </div>
     </div>
 </section>
 
+<!-- SEPARATE SEARCH SECTION -->
+<section class="search-section">
+    <div class="container">
+        <form class="search-panel" action="{% url 'browse_musicians' %}" method="get">
+
+            <label class="search-field">
+                <span class="search-icon" aria-hidden="true">♫</span>
+                <select name="instrument" aria-label="Choose an instrument">
+                    <option value="">Any instrument</option>
+                    <option value="violin">Violinist</option>
+                    <option value="piano">Pianist</option>
+                    <option value="guitar">Guitarist</option>
+                    <option value="drums">Drummer</option>
+                    <option value="saxophone">Saxophonist</option>
+                    <option value="vocals">Singing / Vocals</option>
+                </select>
+            </label>
+
+            <label class="search-field">
+                <span class="search-icon" aria-hidden="true">⌖</span>
+                <select name="state" aria-label="Choose a location">
+                    <option value="">Any location</option>
+                    <option value="Abia">Abia</option>
+                    <option value="Anambra">Anambra</option>
+                    <option value="Bayelsa">Bayelsa</option>
+                    <option value="Delta">Delta</option>
+                    <option value="Enugu">Enugu</option>
+                    <option value="FCT">FCT, Abuja</option>
+                    <option value="Lagos">Lagos</option>
+                    <option value="Rivers">Rivers</option>
+                </select>
+            </label>
+
+            <label class="search-field date-field">
+                <span class="search-icon" aria-hidden="true">▦</span>
+                <input type="date" name="date" aria-label="Event date">
+            </label>
+
+            <button class="button button-coral search-button" type="submit">
+                <span aria-hidden="true">⌕</span> Search
+            </button>
+
+        </form>
+    </div>
+</section>
+
+<!-- FEATURED MUSICIANS -->
 <section class="featured-section" id="discover">
     <div class="container">
         <div class="section-heading featured-heading">
@@ -91,7 +95,7 @@
                 <h2>Top talent, ready for your event</h2>
             </div>
 
-            <a href="#discover" class="button button-outline">
+            <a href="{% url 'browse_musicians' %}" class="button button-outline">
                 View all <span aria-hidden="true">›</span>
             </a>
         </div>
@@ -99,7 +103,7 @@
         <div class="musician-grid">
             <article class="musician-card">
                 <a href="#discover" class="musician-photo photo-violin">
-                    <img src="{% static 'images/violin.jpg' %}" alt="Violin">
+                    <img src="{% static 'images/pexels-rdne-6192181.jpg' %}" alt="Violinist">
                     <span class="category-badge teal-badge">Violinist</span>
                 </a>
                 <div class="musician-info">
@@ -114,7 +118,7 @@
 
             <article class="musician-card">
                 <a href="#discover" class="musician-photo photo-piano">
-                    <img src="{% static 'images/piano.jpg' %}" alt="Piano">
+                    <img src="{% static 'images/pexels-cottonbro-9391648.jpg' %}" alt="Pianist">
                     <span class="category-badge coral-badge">Pianist</span>
                 </a>
                 <div class="musician-info">
@@ -129,7 +133,7 @@
 
             <article class="musician-card">
                 <a href="#discover" class="musician-photo photo-guitar">
-                    <img src="{% static 'images/guitar.jpg' %}" alt="Acoustic guitar">
+                    <img src="{% static 'images/pexels-anthonyshkraba-production-8043944.jpg' %}" alt="Guitarist">
                     <span class="category-badge gold-badge">Guitarist</span>
                 </a>
                 <div class="musician-info">
@@ -144,7 +148,7 @@
 
             <article class="musician-card">
                 <a href="#discover" class="musician-photo photo-drums">
-                    <img src="{% static 'images/drums.jpg' %}" alt="Drum kit">
+                    <img src="{% static 'images/pexels-roktim619-30642556.jpg' %}" alt="Drummer">
                     <span class="category-badge teal-badge">Drummer</span>
                 </a>
                 <div class="musician-info">
@@ -159,7 +163,7 @@
 
             <article class="musician-card">
                 <a href="#discover" class="musician-photo photo-saxophone">
-                    <img src="{% static 'images/saxophone.jpg' %}" alt="Saxophone">
+                    <img src="{% static 'images/pexels-olaseni-omoare-2148436008-32297817.jpg' %}" alt="Saxophonist">
                     <span class="category-badge coral-badge">Saxophonist</span>
                 </a>
                 <div class="musician-info">
@@ -175,6 +179,7 @@
     </div>
 </section>
 
+<!-- BENEFITS -->
 <section class="benefits-section" id="how-it-works">
     <div class="benefits-beads" aria-hidden="true"></div>
 
@@ -210,6 +215,7 @@
     </div>
 </section>
 
+<!-- HOW IT WORKS -->
 <section class="how-section">
     <div class="container">
         <p class="eyebrow">HOW IT WORKS</p>
@@ -237,6 +243,7 @@
     </div>
 </section>
 
+<!-- MUSICIAN CALL TO ACTION -->
 <section class="musician-cta" id="for-musicians">
     <div class="container musician-cta-inner">
         <div>
@@ -247,10 +254,6 @@
                 with people looking to book your services.
             </p>
         </div>
-
-        <a href="/accounts/register/" class="button button-light">
-            Join as a musician <span aria-hidden="true">→</span>
-        </a>
     </div>
 </section>
 

@@ -47,11 +47,17 @@
                     </svg>
                 </a>
 
-                <a href="/accounts/login/" class="nav-login">Log in</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'home' %}">My Account</a>
 
-                <a href="/accounts/register/" class="button button-coral nav-cta">
-                    Get started <span aria-hidden="true">→</span>
-                </a>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit">Log Out</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'register' %}">Get Started</a>
+                    <a href="{% url 'login' %}">Log In</a>
+                {% endif %}
             </div>
         </div>
     </header>

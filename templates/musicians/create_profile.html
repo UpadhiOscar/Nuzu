@@ -1,0 +1,100 @@
+
+{% extends "base.html" %}
+
+{% block title %}Create Musician Profile | Nuzu{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="auth-card profile-form-card">
+        <div class="auth-heading">
+            <span class="auth-eyebrow">YOUR MUSIC. YOUR STAGE.</span>
+            <h1>Build your musician profile.</h1>
+            <p>
+                Introduce yourself to people looking for musical talent.
+                Add your details so clients can discover your services.
+            </p>
+        </div>
+
+        <form method="post" enctype="multipart/form-data" class="auth-form">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="form-errors">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            
+            {% for field in form %}
+                <div class="form-field conditional-field"
+                    id="field-{{ field.name }}">
+
+                    <label for="{{ field.id_for_label }}">
+                        {{ field.label }}
+                    </label>
+
+                    {{ field }}
+
+                    {% if field.help_text %}
+                        <small>{{ field.help_text }}</small>
+                    {% endif %}
+
+                    {% for error in field.errors %}
+                        <p class="field-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+
+            <button type="submit" class="auth-submit">
+                Save musician profile
+            </button>
+        </form>
+    </div>
+</section>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const category = document.getElementById("id_category");
+    const performanceType = document.getElementById("id_performance_type");
+
+    const vocalPart = document.getElementById("field-vocal_part");
+    const performanceField = document.getElementById("field-performance_type");
+    const bandSize = document.getElementById("field-band_size");
+
+    function selectedLabel(select) {
+        if (!select || select.selectedIndex < 0) return "";
+        return select.options[select.selectedIndex].text
+            .trim()
+            .toLowerCase();
+    }
+
+    function updateFields() {
+        const categoryLabel = selectedLabel(category);
+        const performanceLabel = selectedLabel(performanceType);
+
+        const isSinger = categoryLabel.includes("singer");
+        const isInstrumentalist = categoryLabel.includes("instrumentalist");
+        const isBand = performanceLabel.includes("band");
+
+        if (vocalPart) {
+            vocalPart.hidden = !isSinger;
+        }
+
+        if (performanceField) {
+            performanceField.hidden = !isInstrumentalist;
+        }
+
+        if (bandSize) {
+            bandSize.hidden = !(isInstrumentalist && isBand);
+        }
+    }
+
+    category?.addEventListener("change", updateFields);
+    performanceType?.addEventListener("change", updateFields);
+
+    updateFields();
+});
+</script>
+
+
+{% endblock %}
