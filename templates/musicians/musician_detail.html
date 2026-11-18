@@ -6,14 +6,25 @@
 
 {% block content %}
 
-<section class="browse-hero">
+<!-- PROFILE HERO -->
+<section class="browse-hero musician-profile-hero">
     <div class="container">
         <p class="eyebrow">MEET THE MUSICIAN</p>
         <h1>{{ musician.display_name }}</h1>
-        <p>{{ musician.city }}, {{ musician.get_state_display }}</p>
+        {% if user.is_authenticated and user == musician.user %}
+            <a href="{% url 'edit_profile' pk=musician.pk %}"
+                class="profile-edit-link">
+                 Edit Profile
+            </a>
+        {% endif %}
+
+        {% if musician.is_verified %}
+            <span class="category-badge teal-badge">Verified musician</span>
+        {% endif %}
     </div>
 </section>
 
+<!-- PROFILE INFORMATION -->
 <section class="musician-detail-section">
     <div class="container musician-detail-grid">
 
@@ -30,52 +41,165 @@
         </div>
 
         <div class="musician-detail-info">
-            {% if musician.is_verified %}
-                <span class="category-badge teal-badge">Verified musician</span>
-            {% endif %}
-
-            <h2>About the musician</h2>
-            <p>{{ musician.bio|default:"This musician has not added a biography yet." }}</p>
+            <h2>Meet {{ musician.display_name }}</h2>
 
             <div class="detail-meta">
                 <p><strong>Location:</strong> {{ musician.city }}, {{ musician.get_state_display }}</p>
                 <p><strong>Performance:</strong> {{ musician.get_performance_type_display|default:"Not specified" }}</p>
+
                 {% if musician.band_size %}
                     <p><strong>Band size:</strong> {{ musician.band_size }} members</p>
                 {% endif %}
             </div>
+
+            <a href="#services" class="btn btn-primary">
+                Explore booking options
+            </a>
         </div>
 
     </div>
 </section>
 
-<section class="browse-section">
+<!-- BIOGRAPHY -->
+<section class="musician-bio-section">
     <div class="container">
+        <div class="musician-bio-card">
+            <p class="eyebrow">THE STORY BEHIND THE MUSIC</p>
+            <h2>About the musician</h2>
+
+            <p>
+                {{ musician.bio|default:"This musician has not added a biography yet." }}
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- PHOTO PORTFOLIO -->
+<section class="musician-portfolio-section">
+    <div class="container">
+
+        <p class="eyebrow">MOMENTS THROUGH MUSIC</p>
+        <h2>Performance gallery</h2>
+        <p class="section-description">
+            A glimpse into performances, events and musical experiences.
+        </p>
+
+        {% if photos %}
+            <div class="musician-editorial-gallery">
+
+                {% for photo in photos %}
+                    <div class="editorial-gallery-item {% if forloop.first %}gallery-featured{% endif %}">
+                        <img
+                            src="{{ photo.image.url }}"
+                            alt="{{ photo.caption|default:musician.display_name }}"
+                            loading="lazy"
+                        >
+
+                        {% if photo.is_featured %}
+                            <span class="featured-label">Featured</span>
+                        {% endif %}
+
+                        {% if photo.caption %}
+                            <div class="gallery-caption">
+                                {{ photo.caption }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+            </div>
+        {% else %}
+            <div class="portfolio-public-empty">
+                <span>♫</span>
+                <p>Performance photographs will appear here.</p>
+            </div>
+        {% endif %}
+
+    </div>
+</section>
+
+<!-- PERFORMANCE VIDEOS -->
+<section class="musician-video-section">
+    <div class="container">
+
+        <p class="eyebrow">EXPERIENCE THE PERFORMANCE</p>
+        <h2>Watch the musician</h2>
+        <p class="section-description">
+            Watch selected performances and discover their musical style.
+        </p>
+
+        {% if videos %}
+            <div class="musician-public-video-grid">
+
+                {% for video in videos %}
+                    <article class="public-video-card">
+
+                        <video controls preload="metadata">
+                            <source src="{{ video.video.url }}">
+                            Your browser does not support video playback.
+                        </video>
+
+                        <div class="public-video-info">
+                            <h3>{{ video.title }}</h3>
+
+                            {% if video.description %}
+                                <p>{{ video.description }}</p>
+                            {% endif %}
+                        </div>
+
+                    </article>
+                {% endfor %}
+
+            </div>
+        {% else %}
+            <div class="portfolio-public-empty">
+                <span>▶</span>
+                <p>Performance videos will appear here.</p>
+            </div>
+        {% endif %}
+
+    </div>
+</section>
+
+<!-- SERVICES AND PRICING -->
+<section class="browse-section musician-services-section" id="services">
+    <div class="container">
+
         <p class="eyebrow">WHAT THEY OFFER</p>
         <h2>Services and pricing</h2>
 
         {% if services %}
             <div class="musician-grid">
+
                 {% for service in services %}
                     <article class="musician-card service-card">
                         <div class="musician-info">
+
                             <span class="category-badge coral-badge">
                                 {{ service.get_instrument_display }}
                             </span>
+
                             <h3>{{ service.service_name }}</h3>
-                            <p>{{ service.description|default:"Professional music performance service." }}</p>
+
+                            <p>
+                                {{ service.description|default:"Professional music performance service." }}
+                            </p>
+
                             <div class="musician-bottom">
                                 <span class="starting-price">
                                     From ₦{{ service.starting_price|floatformat:0 }}
                                 </span>
                             </div>
+
                         </div>
                     </article>
                 {% endfor %}
+
             </div>
         {% else %}
             <p>No active services have been listed yet.</p>
         {% endif %}
+
     </div>
 </section>
 

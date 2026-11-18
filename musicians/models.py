@@ -2,8 +2,9 @@
 from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-
-
+from django.core.validators import FileExtensionValidator
+from cloudinary_storage.storage import VideoMediaCloudinaryStorage
+from cloudinary_storage.validators import validate_video
 NIGERIAN_STATES = [
     ("Abia", "Abia"),
     ("Adamawa", "Adamawa"),
@@ -152,3 +153,48 @@ class MusicianService(models.Model):
 
     def __str__(self):
         return f"{self.musician.display_name} — {self.service_name}"
+class PortfolioPhoto(models.Model):
+    musician = models.ForeignKey(
+        MusicianProfile,
+        on_delete=models.CASCADE,
+        related_name="portfolio_photos",
+    )
+    image = models.ImageField(
+        upload_to="musicians/portfolio/photos/",
+    )
+    caption = models.CharField(max_length=150, blank=True)
+    is_featured = models.BooleanField(default=False)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-is_featured", "-uploaded_at"]
+
+    def __str__(self):
+        return f"Photo — {self.musician.display_name}"
+
+
+class PortfolioVideo(models.Model):
+    musician = models.ForeignKey(
+        MusicianProfile,
+        on_delete=models.CASCADE,
+        related_name="portfolio_videos",
+    )
+    title = models.CharField(max_length=150)
+    video = models.FileField(
+        upload_to="musicians/portfolio/videos/",
+        storage=VideoMediaCloudinaryStorage(),
+        validators=[
+            FileExtensionValidator(
+                allowed_extensions=["mp4", "mov", "webm"],
+            ),
+            validate_video,
+        ],
+    )
+    description = models.CharField(max_length=250, blank=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-uploaded_at"]
+
+    def __str__(self):
+        return f"{self.title} — {self.musician.display_name}"

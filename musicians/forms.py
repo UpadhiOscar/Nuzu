@@ -1,7 +1,7 @@
 
 from django import forms
 from .models import MusicianProfile
-
+from .models import MusicianProfile, PortfolioPhoto, PortfolioVideo
 
 class MusicianProfileForm(forms.ModelForm):
     class Meta:
@@ -31,3 +31,13 @@ class MusicianProfileForm(forms.ModelForm):
                 "Your bio cannot exceed 200 characters."
             )
         return bio
+class PortfolioPhotoForm(forms.ModelForm):
+    class Meta:
+        model = PortfolioPhoto
+        fields = ["image", "caption", "is_featured"]
+
+
+class PortfolioVideoForm(forms.ModelForm):
+    class Meta:
+        model = PortfolioVideo
+        fields = ["title", "video", "description"]

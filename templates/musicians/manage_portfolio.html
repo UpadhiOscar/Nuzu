@@ -1,0 +1,217 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="portfolio-manager">
+
+    <div class="portfolio-manager-header">
+        <div>
+            <span class="eyebrow">YOUR CREATIVE SPACE</span>
+            <h1>Manage your portfolio</h1>
+            <p>Show clients what makes your musical performance special.</p>
+        </div>
+
+        <a href="{% url 'musician_detail' musician.pk %}" class="btn btn-primary portfolio-action-btn">
+            View public profile
+        </a>
+    </div>
+
+    <div class="portfolio-upload-grid">
+
+        <div class="portfolio-upload-card">
+            <h2>Upload photographs</h2>
+            <p>Add performance pictures, studio sessions and event highlights.</p>
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="upload_photo">
+
+                {{ photo_form.as_p }}
+
+                <button type="submit" class="btn btn-primary portfolio-action-btn">
+                    Upload photograph
+                </button>
+            </form>
+        </div>
+
+        <div class="portfolio-upload-card">
+            <h2>Upload performance videos</h2>
+            <p>Let potential clients experience your performances.</p>
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="upload_video">
+
+                {{ video_form.as_p }}
+
+                <button type="submit" class="btn btn-primary portfolio-action-btn">
+                    Upload video
+                </button>
+            </form>
+        </div>
+
+    </div>
+
+    <div class="portfolio-library">
+
+        <!-- PHOTOGRAPHS -->
+        <div class="portfolio-library-section">
+            <h2>Your photographs</h2>
+
+            {% if photos %}
+                <div class="portfolio-photo-grid">
+                    {% for photo in photos %}
+                        <div class="portfolio-photo-item">
+
+                            <img
+                                src="{{ photo.image.url }}"
+                                alt="{{ photo.caption|default:'Performance photograph' }}"
+                            >
+
+                            {% if photo.is_featured %}
+                                <span class="featured-label">Featured</span>
+                            {% endif %}
+
+                            {% if photo.caption %}
+                                <p>{{ photo.caption }}</p>
+                            {% endif %}
+
+                            <div class="portfolio-item-actions">
+
+                                <details class="portfolio-edit-details">
+                                    <summary class="portfolio-action-btn">
+                                        Edit / Replace
+                                    </summary>
+
+                                    <form method="POST" enctype="multipart/form-data" class="portfolio-edit-form">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="action" value="update_photo">
+                                        <input type="hidden" name="photo_id" value="{{ photo.pk }}">
+
+                                        <label>Replace photograph</label>
+                                        <input type="file" name="image" accept="image/*">
+
+                                        <label>Caption</label>
+                                        <input
+                                            type="text"
+                                            name="caption"
+                                            value="{{ photo.caption }}"
+                                            maxlength="150"
+                                        >
+
+                                        <label class="portfolio-featured-option">
+                                            <input
+                                                type="checkbox"
+                                                name="is_featured"
+                                                {% if photo.is_featured %}checked{% endif %}
+                                            >
+                                            Mark as featured
+                                        </label>
+
+                                        <button type="submit" class="portfolio-action-btn">
+                                            Save changes
+                                        </button>
+                                    </form>
+                                </details>
+
+                                <form method="POST" class="portfolio-delete-form"
+                                      onsubmit="return confirm('Are you sure you want to permanently delete this photograph?');">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="delete_photo">
+                                    <input type="hidden" name="photo_id" value="{{ photo.pk }}">
+
+                                    <button type="submit" class="portfolio-delete-btn">
+                                        Delete
+                                    </button>
+                                </form>
+
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="portfolio-empty">You haven't uploaded any photographs yet.</p>
+            {% endif %}
+        </div>
+
+        <!-- VIDEOS -->
+        <div class="portfolio-library-section">
+            <h2>Your videos</h2>
+
+            {% if videos %}
+                <div class="portfolio-video-grid">
+                    {% for video in videos %}
+                        <div class="portfolio-video-item">
+
+                            <video controls preload="metadata">
+                                <source src="{{ video.video.url }}">
+                                Your browser does not support video playback.
+                            </video>
+
+                            <h3>{{ video.title }}</h3>
+
+                            {% if video.description %}
+                                <p>{{ video.description }}</p>
+                            {% endif %}
+
+                            <div class="portfolio-item-actions">
+
+                                <details class="portfolio-edit-details">
+                                    <summary class="portfolio-action-btn">
+                                        Edit / Replace
+                                    </summary>
+
+                                    <form method="POST" enctype="multipart/form-data" class="portfolio-edit-form">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="action" value="update_video">
+                                        <input type="hidden" name="video_id" value="{{ video.pk }}">
+
+                                        <label>Video title</label>
+                                        <input
+                                            type="text"
+                                            name="title"
+                                            value="{{ video.title }}"
+                                            required
+                                        >
+
+                                        <label>Replace video</label>
+                                        <input
+                                            type="file"
+                                            name="video"
+                                            accept=".mp4,.mov,.webm"
+                                        >
+
+                                        <label>Description</label>
+                                        <textarea name="description" rows="3">{{ video.description }}</textarea>
+
+                                        <button type="submit" class="portfolio-action-btn">
+                                            Save changes
+                                        </button>
+                                    </form>
+                                </details>
+
+                                <form method="POST" class="portfolio-delete-form"
+                                      onsubmit="return confirm('Are you sure you want to permanently delete this video?');">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="delete_video">
+                                    <input type="hidden" name="video_id" value="{{ video.pk }}">
+
+                                    <button type="submit" class="portfolio-delete-btn">
+                                        Delete
+                                    </button>
+                                </form>
+
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="portfolio-empty">You haven't uploaded any videos yet.</p>
+            {% endif %}
+        </div>
+
+    </div>
+
+</section>
+{% endblock %}
